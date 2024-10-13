@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Login/Login';
+import Notes from './components/Notes/Notes';
+import Signup from './components/Signup/Signup';
+import { setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { auth } from './firebaseConfig';
 
-function App() {
+const App: React.FC = () => {
+
+  useEffect(() => {
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        console.log("Persistence set to local");
+      })
+      .catch((error) => {
+        console.error("Error setting persistence: ", error);
+      });
+  }, []); // Runs once when the app loads
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/notes" element={<Notes />} />
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
