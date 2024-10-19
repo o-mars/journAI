@@ -1,0 +1,4 @@
+.client-config-container {
+  display: flex;
+  flex-direction: column;
+}

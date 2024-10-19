@@ -1,0 +1,74 @@
+.new-note-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.note-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-height: 150px;  /* Minimum height for a larger writing area */
+  resize: vertical;  /* Allow resizing vertically */
+  width: 50%;
+  margin-bottom: 10px;
+  font-size: 16px;
+  margin: auto;
+}
+
+.submit-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin: 10px auto;
+}
+
+.delete-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff4d4d;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+}
+
+.note-display {
+  display: none;
+}

@@ -1,0 +1,61 @@
+.conversation-item {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  margin-left: 16px;
+  /* width: 50%; */
+}
+
+.conversation-item:not(:hover) .close {
+  display: none;
+}
+
+.conversation-item .close {
+  position: absolute;
+  top: 0px;
+  right: -20px;
+  background: #aaa;
+  color: #fff;
+  display: flex;
+  border-radius: 16px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.conversation-item .speaker {
+  position: relative;
+  text-align: left;
+  gap: 16px;
+  width: 80px;
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.conversation-item .speaker.user {
+  color: #0099ff;
+}
+.conversation-item .speaker.assistant {
+  color: #009900;
+}
+
+.conversation-item .speaker-content {
+    color: #18181b;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.conversation-item .speaker-content div {
+  padding-bottom: 8px;
+}
+
+.content-block-body {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.content-block-title {
+  display: none;
+}

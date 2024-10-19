@@ -1,0 +1,10 @@
+.text-input-container {
+  margin: 12px auto;
+  display: flex;
+  width: 25%;
+  justify-content: center;
+}
+
+input {
+  flex-grow: 1;
+}

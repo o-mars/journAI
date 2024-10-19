@@ -1,0 +1,21 @@
+.logout-container {
+  display: flex;
+  margin: 8px;
+  right: 0px;
+  top: 0px;
+  position: absolute;
+  align-items: center;
+}
+
+.client-config-wrapper {
+  padding: 8px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  right: 0;
+  align-items: flex-end;
+}
+
+.client-config-wrapper button {
+  margin: 4px;
+}

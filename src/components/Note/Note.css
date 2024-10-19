@@ -1,0 +1,18 @@
+
+.note-container {
+  flex: 1 1 30%;  /* Grow, shrink, and base width at 30% */
+  min-width: 300px;  /* Minimum width to avoid notes getting too small on small screens */
+  max-width: 33%;  /* Max width to ensure 3 notes per row on larger screens */
+  box-sizing: border-box;  /* Ensures padding and border are included in the width */
+  padding: 10px;
+  margin: 8px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  word-wrap: break-word;  /* Break long words to avoid overflow */
+}
+
+p {
+  margin: 0;
+  white-space: pre-wrap; /* Ensures new lines are respected */
+}
