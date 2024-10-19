@@ -3,16 +3,18 @@ import React, { useState } from 'react';
 import { auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPTT, setIsPTT] = useState(true);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/notes');
+      navigate('/main');
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -22,9 +24,12 @@ const Login: React.FC = () => {
     navigate('/signup');
   };
 
+  const toggleisPTT = () => {
+    setIsPTT(val => !val);
+  }
+
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="login-container">
       <input
         type="email"
         placeholder="Email"

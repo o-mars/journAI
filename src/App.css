@@ -24,6 +24,12 @@
   color: white;
 }
 
+.title {
+  font-size: 24pt;
+  text-align: center;
+  font-weight: bold;
+}
+
 .App-link {
   color: #61dafb;
 }
