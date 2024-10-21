@@ -189,6 +189,8 @@ export function AudioInput() {
         <button
         onMouseDown={startRecording}
         onMouseUp={stopRecording}
+        onTouchStart={startRecording}
+        onTouchEnd={stopRecording}
         disabled={!canPushToTalk}
         >
           { isRecording ? 'Release to Send' : 'Push to Talk'}
