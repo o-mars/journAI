@@ -14,7 +14,7 @@ export function AudioInput() {
   const clientCanvasRef = useRef<HTMLCanvasElement>(null);
   const serverCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const { client } = useRealtimeClient();
+  const { client, finishConversationCallbacks } = useRealtimeClient();
 
   const [didLoad, setDidLoad] = useState(false);
   const [isPushToTalkMode, setIsPushToTalkMode] = useState(true);
@@ -27,6 +27,13 @@ export function AudioInput() {
     new WavStreamPlayer({ sampleRate: 24000 })
   );
 
+  useEffect(() => {
+    finishConversationCallbacks(() => {
+      cleanupWavs();
+    });
+  }, [finishConversationCallbacks]);
+
+
   const initWavs = async () => {
     if (wavRecorderRef.current.getStatus() === 'ended') await wavRecorderRef.current.begin();
     await wavStreamPlayerRef.current.connect();
@@ -34,10 +41,13 @@ export function AudioInput() {
   }
 
   const cleanupWavs = async () => {
-    if (wavRecorderRef.current.getStatus() !== 'ended') await wavRecorderRef.current.end();
+    try {
+      if (wavRecorderRef.current.getStatus() !== 'ended') await wavRecorderRef.current.end();
+    } catch (e) {
+      console.log(e);  
+    }
     await wavStreamPlayerRef.current.interrupt();
     console.log('cleaned up wavs');
-
   }
 
   useEffect(() => {

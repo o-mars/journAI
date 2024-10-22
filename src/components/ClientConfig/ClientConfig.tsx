@@ -43,19 +43,19 @@ const ClientConfig: React.FC = () => {
           <label className="custom-checkbox">
             <input type="checkbox" checked={isPTT} onChange={togglePTT} />
               {isPTT ? <CheckboxOn /> : <CheckboxOff />}
-            <span>{isPTT ? 'Hands-Free Mode' : 'Push-to-Talk Mode'}</span>
+            <span>Push-to-Talk Mode</span>
           </label>
 
           <label className="custom-checkbox">
             <input type="checkbox" checked={isOnlyTextOutput} onChange={toggleTextOnlyOutput} />
             {isOnlyTextOutput ? <CheckboxOn /> : <CheckboxOff />}
-            <span>{isOnlyTextOutput ? 'Text Responses' : 'Audio Responses'}</span>
+            <span>Text Responses</span>
           </label>
 
           <label className="custom-checkbox">
             <input type="checkbox" checked={autoStart} onChange={toggleAutoStart} />
             {autoStart ? <CheckboxOn /> : <CheckboxOff />}  
-            <span>{autoStart ? 'Autostart Journal Entry' : 'Manually Start Journal Entry'}</span>
+            <span>Autostart Journal Entry</span>
           </label>
         </div>
       )}

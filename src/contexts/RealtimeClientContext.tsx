@@ -29,10 +29,12 @@ export const RealtimeClientProvider = ({ children }: RealtimeClientProviderProps
   const { autoStart, isPTT, isOnlyTextOutput, hasLoaded } = useUserPreferences();
 
   useEffect(() => {
-    if (hasLoaded) {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user && client && client.isConnected()) finishConversation();
+    });
 
-    }
-  }, [hasLoaded, autoStart, isPTT, isOnlyTextOutput]);
+    return () => unsubscribe();
+  }, [auth]);
 
   useEffect(() => {
     if (hasLoaded) {
@@ -51,33 +53,38 @@ export const RealtimeClientProvider = ({ children }: RealtimeClientProviderProps
 
   useEffect(() => {
     if (hasLoaded) {
-      updateAudioOutputMode(isOnlyTextOutput);
+      updateAudioOutputMode();
     }
   }, [hasLoaded, isOnlyTextOutput]);
 
   const updateAudioInputMode = (isPTT: boolean) => client && client.updateSession({ turn_detection: isPTT ? null : { type: 'server_vad'}});
 
-  const updateAudioOutputMode = async (isOnlyTextOutput: boolean) => {
+  const updateAudioOutputMode = async () => {
     if (!client) return;
     const wasAlreadyConnected = client.isConnected();
     if (wasAlreadyConnected) client.disconnect();
+    if (wasAlreadyConnected) connect();
+  }
+
+  const getModalities = () => {
     const modalities = ['text'];
     if (!isOnlyTextOutput) modalities.push('audio');
-    client.updateSession({ modalities});
-    if (wasAlreadyConnected) connect();
+    return modalities;
   }
 
   const initClient = async () => {
     await connect();
     updateAudioInputMode(isPTT);
-    await updateAudioOutputMode(isOnlyTextOutput);
+    await updateAudioOutputMode();
   }
 
   const connect = async () => {
     if (!client) return;
     await client.connect();
+    const modalities = getModalities();
     client.updateSession({
       instructions,
+      modalities,
       voice: 'shimmer',
       max_response_output_tokens: 1024,
       input_audio_transcription: { model: 'whisper-1' }
@@ -94,7 +101,6 @@ export const RealtimeClientProvider = ({ children }: RealtimeClientProviderProps
   const finishConversation = async () => {
     await client?.disconnect();
     finishConversationCallbacks.forEach((callback) => callback());
-    // setFinishConversationCallbacks([]); // Clear callbacks after triggering?
   };
 
   const registerCallbackForStartConversation = useCallback(
