@@ -1,11 +1,12 @@
 .login-container {
-  margin: 12px auto;
   display: flex;
   flex-direction: column;
-  width: 80%;
 }
 
 .login-container input,button {
-  margin: 4px;
-  padding: 4px;
+  margin-bottom: 8px;
+}
+
+.login-container input {
+  height: 24px;
 }

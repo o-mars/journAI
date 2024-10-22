@@ -1,8 +1,31 @@
 .client-config-container {
   display: flex;
   flex-direction: column;
+  padding: 8px;
 }
 
 .cc-wrapper {
   padding-top: 8px;
+}
+
+.client-config-container input[type='checkbox'] {
+  display: none;
+}
+
+.client-config-container svg {
+  vertical-align: middle;
+  margin: 2px;
+}
+
+.client-config-container span {
+  padding-left: 4px;
+  display: inline-block;
+  height: 24px;
+  vertical-align: bottom;
+}
+
+.cc-wrapper svg {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
 }

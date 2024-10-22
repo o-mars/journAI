@@ -1,7 +1,7 @@
 // src/pages/Login.tsx
 import React, { useState, useEffect } from 'react';
 import { auth } from '../../firebaseConfig';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -10,6 +10,14 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isPTT, setIsPTT] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!!user) navigate('/main');
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate]);
 
   const handleLogin = async () => {
     try {

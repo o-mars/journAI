@@ -85,6 +85,8 @@ export function Conversations() {
     });
   }, [finishConversationCallbacks]);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const conversationEls = [].slice.call(
       document.body.querySelectorAll('[data-conversation-content]')
@@ -93,6 +95,7 @@ export function Conversations() {
       const conversationEl = el as HTMLDivElement;
       conversationEl.scrollTop = conversationEl.scrollHeight;
     }
+    if(scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [items]);
 
   useEffect(() => {
@@ -144,7 +147,7 @@ export function Conversations() {
   }, []);
 
   return (
-    <div className="content-block conversation">
+    <div className="content-block conversation" ref={scrollRef}>
       <div className="content-block-title">Journal Entry</div>
       <div className="content-block-body" data-conversation-content>
         {items.map((conversationItem, i) => {

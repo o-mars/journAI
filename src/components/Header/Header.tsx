@@ -6,6 +6,7 @@ import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { useRealtimeClient } from '../../contexts/RealtimeClientContext';
 import { useNavigate } from 'react-router-dom';
 
+import { ReactComponent as LogoutIcon } from '../../assets/icons/feather-log-out.svg';
 
 interface HeaderProps {
   title: string;
@@ -45,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ title, navigation, actionButton }) => {
       <div className="left"></div>
       <h1>{title}</h1>
       <div className="right">
-        {isLoggedIn && <div onClick={handleLogout} className="action-button">DC</div>}
+        {isLoggedIn && <div onClick={handleLogout} className="action-button"><LogoutIcon /></div>}
       </div>
     </header>
   );

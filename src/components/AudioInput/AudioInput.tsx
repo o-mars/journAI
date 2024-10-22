@@ -6,6 +6,9 @@ import { WavRenderer } from '../../utils/wav_renderer';
 import './AudioInput.css';
 import { auth, db } from '../../firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
+import { ReactComponent as MicOffIcon } from '../../assets/icons/mic-off.svg';
+import { ReactComponent as MicOnIcon } from '../../assets/icons/mic-on.svg';
+
 
 export function AudioInput() {
   const clientCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -184,22 +187,23 @@ export function AudioInput() {
   const timerRef = useRef<number | null>(null);
 
   const handleMouseDownOrTouchStart = () => {
-    if (!isPushToTalkMode) return;
-    timerRef.current = window.setTimeout(() => {
-      startRecording();
-    }, 200);
+  //   if (!isPushToTalkMode) return;
+  //   timerRef.current = window.setTimeout(() => {
+  //     startRecording();
+  //   }, 200);
   };
 
   const handleMouseUpOrTouchEnd = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
+    setIsPushToTalkMode(!isPushToTalkMode);
+  //   if (timerRef.current) {
+  //     clearTimeout(timerRef.current);
+  //   }
 
-    if (isPushToTalkMode && isRecording) {
-      stopRecording();
-    } else {
-      setIsPushToTalkMode(!isPushToTalkMode);
-    }
+  //   if (isPushToTalkMode && isRecording) {
+  //     stopRecording();
+  //   } else {
+  //     setIsPushToTalkMode(!isPushToTalkMode);
+  //   }
   };
 
 
@@ -218,7 +222,8 @@ export function AudioInput() {
             onTouchEnd={handleMouseUpOrTouchEnd}
             className={`mic-button ${isPushToTalkMode ? 'ptt' : 'vad'} ${isRecording ? 'recording' : 'idle'}`}
           >
-            { !isPushToTalkMode ? 'Auto Voice Detection' : isRecording ? 'Release to Send' : 'Push to Talk'}
+            { !isPushToTalkMode ? <MicOnIcon /> : <MicOffIcon />}
+            {/* { !isPushToTalkMode ? 'Mic Enabled' : 'Mic Disabled'} */}
           </button>
 
 

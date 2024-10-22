@@ -14,6 +14,7 @@ export function Main() {
 
   useEffect(() => {
     startConversationCallbacks(() => {
+      console.log('auto started in main?');
       setIsActive(true);
     });
   }, [startConversationCallbacks])

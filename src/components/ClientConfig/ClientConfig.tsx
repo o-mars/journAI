@@ -6,6 +6,10 @@ import { addDoc, collection, serverTimestamp, setDoc, doc, getDoc } from 'fireba
 import { auth, db } from '../../firebaseConfig';
 import { useUserPreferences } from '../../contexts/useUserPreferences';
 
+import { ReactComponent as CheckboxOff } from '../../assets/icons/checkbox-false.svg';
+import { ReactComponent as CheckboxOn } from '../../assets/icons/checkbox-true.svg';
+import { ReactComponent as CaretRight } from '../../assets/icons/feather-chevron-right.svg';
+import { ReactComponent as CaretDown } from '../../assets/icons/feather-chevron-down.svg';
 
 const ClientConfig: React.FC = () => {
   const { autoStart, isPTT, isOnlyTextOutput, setAutoStart, setIsPTT, setIsOnlyTextOutput } = useUserPreferences();
@@ -31,20 +35,28 @@ const ClientConfig: React.FC = () => {
   return (
     <div>
       <div className="cc-wrapper" onClick={toggleOptions}>
-        Options {isOptionsVisible ? 'V' : '>'}
+        Options{isOptionsVisible ? <CaretDown /> : <CaretRight />}
       </div>
 
       {isOptionsVisible && (
         <div className="client-config-container">
-          <button onClick={togglePTT}>
-            {isPTT ? 'Switch to Hands-Free' : 'Switch to Push-to-Talk'}
-          </button>
-          <button onClick={toggleTextOnlyOutput}>
-            {isOnlyTextOutput ? 'Switch to Audio Responses' : 'Switch to Text Responses'}
-          </button>
-          <button onClick={toggleAutoStart}>
-            {autoStart ? 'Manually Start Journal Entry' : 'Autostart Journal Entry'}
-          </button>
+          <label className="custom-checkbox">
+            <input type="checkbox" checked={isPTT} onChange={togglePTT} />
+              {isPTT ? <CheckboxOn /> : <CheckboxOff />}
+            <span>{isPTT ? 'Hands-Free Mode' : 'Push-to-Talk Mode'}</span>
+          </label>
+
+          <label className="custom-checkbox">
+            <input type="checkbox" checked={isOnlyTextOutput} onChange={toggleTextOnlyOutput} />
+            {isOnlyTextOutput ? <CheckboxOn /> : <CheckboxOff />}
+            <span>{isOnlyTextOutput ? 'Text Responses' : 'Audio Responses'}</span>
+          </label>
+
+          <label className="custom-checkbox">
+            <input type="checkbox" checked={autoStart} onChange={toggleAutoStart} />
+            {autoStart ? <CheckboxOn /> : <CheckboxOff />}  
+            <span>{autoStart ? 'Autostart Journal Entry' : 'Manually Start Journal Entry'}</span>
+          </label>
         </div>
       )}
     </div>

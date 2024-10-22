@@ -42,12 +42,13 @@
 
 button.mic-button {
   margin: 0;
+  width: 60px;
 }
 
 .mic-button.vad, .mic-button.ptt.recording {
-  background-color: #009900;
+  background-color: #00a900;
 }
 
 .mic-button.ptt.idle {
-  background-color: #FF3F3c;
+  background-color: #dddddd;
 }
