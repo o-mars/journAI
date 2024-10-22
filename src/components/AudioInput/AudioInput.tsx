@@ -14,7 +14,7 @@ export function AudioInput() {
   const { client } = useRealtimeClient();
 
   const [didLoad, setDidLoad] = useState(false);
-  const [canPushToTalk, setCanPushToTalk] = useState(true);
+  const [isPushToTalkMode, setIsPushToTalkMode] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
 
   const wavRecorderRef = useRef<WavRecorder>(
@@ -56,7 +56,7 @@ export function AudioInput() {
 
           if (userDoc.exists()) {
             const preferences = userDoc.data().preferences;
-            setCanPushToTalk(preferences.isPTT);
+            setIsPushToTalkMode(preferences.isPTT);
             console.log('fetched user prefs... PTT is ', preferences.isPTT);
           }
         }
@@ -91,7 +91,7 @@ export function AudioInput() {
   };
 
   const changeTurnEndType = async () => {
-    const value = canPushToTalk ? 'none' : 'server_vad';
+    const value = isPushToTalkMode ? 'none' : 'server_vad';
     const wavRecorder = wavRecorderRef.current;
     if (value === 'none' && wavRecorder.getStatus() === 'recording') {
       await wavRecorder.pause();
@@ -111,7 +111,7 @@ export function AudioInput() {
     if (didLoad) {
       changeTurnEndType();
     }
-  }, [canPushToTalk, didLoad]);
+  }, [isPushToTalkMode, didLoad]);
 
   useEffect(() => {
     
@@ -181,24 +181,47 @@ export function AudioInput() {
     };
   }, []);
 
+  const timerRef = useRef<number | null>(null);
+
+  const handleMouseDownOrTouchStart = () => {
+    if (!isPushToTalkMode) return;
+    timerRef.current = window.setTimeout(() => {
+      startRecording();
+    }, 200);
+  };
+
+  const handleMouseUpOrTouchEnd = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    if (isPushToTalkMode && isRecording) {
+      stopRecording();
+    } else {
+      setIsPushToTalkMode(!isPushToTalkMode);
+    }
+  };
+
 
   return (
     <>
       <div className="audio-input-container">
-        <button onClick={() => setCanPushToTalk(!canPushToTalk)}>{ canPushToTalk ? 'Keep Mic Active' : 'Push to Talk'}</button>
-        <button
-        onMouseDown={startRecording}
-        onMouseUp={stopRecording}
-        onTouchStart={startRecording}
-        onTouchEnd={stopRecording}
-        disabled={!canPushToTalk}
-        >
-          { isRecording ? 'Release to Send' : 'Push to Talk'}
-        </button>
         <div className="visualization">
           <div className="visualization-entry client">
             <canvas ref={clientCanvasRef} />
           </div>
+
+          <button
+            onMouseDown={handleMouseDownOrTouchStart}
+            onMouseUp={handleMouseUpOrTouchEnd}
+            onTouchStart={handleMouseDownOrTouchStart}
+            onTouchEnd={handleMouseUpOrTouchEnd}
+            className={`mic-button ${isPushToTalkMode ? 'ptt' : 'vad'} ${isRecording ? 'recording' : 'idle'}`}
+          >
+            { !isPushToTalkMode ? 'Auto Voice Detection' : isRecording ? 'Release to Send' : 'Push to Talk'}
+          </button>
+
+
           <div className="visualization-entry server">
             <canvas ref={serverCanvasRef} />
           </div>

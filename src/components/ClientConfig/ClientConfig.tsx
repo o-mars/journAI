@@ -8,10 +8,13 @@ import { useUserPreferences } from '../../contexts/useUserPreferences';
 
 
 const ClientConfig: React.FC = () => {
-  const { client, finishConversation } = useRealtimeClient();
-  const { autoStart, isPTT, isOnlyTextOutput, setAutoStart, setIsPTT, setIsOnlyTextOutput, hasLoaded } = useUserPreferences();
+  const { autoStart, isPTT, isOnlyTextOutput, setAutoStart, setIsPTT, setIsOnlyTextOutput } = useUserPreferences();
 
-  const [isConnected, setIsConnected] = useState(false);
+  const [isOptionsVisible, setIsOptionsVisible] = useState(false);
+
+  const toggleOptions = () => {
+    setIsOptionsVisible(!isOptionsVisible);
+  };
 
   const toggleAutoStart = () => {
     setAutoStart(autostart => !autostart);
@@ -25,28 +28,25 @@ const ClientConfig: React.FC = () => {
     setIsOnlyTextOutput(val => !val);
   }
 
-  useEffect(() => {
-    if (hasLoaded && autoStart && client && client.isConnected()) setIsConnected(true);
-  }, [autoStart, hasLoaded]);
-
-  const toggleClientConnection = async () => {
-    if (!client) return;
-    if (isConnected && client.isConnected()) {
-      client.disconnect();
-      finishConversation();
-    } else if (!isConnected) {
-      await client.connect();
-      client.updateSession({ input_audio_transcription: { model: 'whisper-1' } }); // TODO: Needs to be set after connect
-    }
-    setIsConnected(client.isConnected());
-  }
-
   return (
-    <div className="client-config-container">
-      <button onClick={togglePTT}>{ isPTT ? 'Switch to Hands-Free' : 'Switch to Push-to-Talk'}</button>
-      <button onClick={toggleTextOnlyOutput}>{ isOnlyTextOutput ? 'Switch to Audio Responses' : 'Switch to Text Responses'}</button>
-      <button onClick={toggleAutoStart}>{ autoStart ? 'Manually Start Journal Entry' : 'Autostart Journal Entry'}</button>
-      <button onClick={toggleClientConnection}>{ isConnected ? 'Finish Entry' : 'Start Entry' }</button>
+    <div>
+      <div className="cc-wrapper" onClick={toggleOptions}>
+        Options {isOptionsVisible ? 'V' : '>'}
+      </div>
+
+      {isOptionsVisible && (
+        <div className="client-config-container">
+          <button onClick={togglePTT}>
+            {isPTT ? 'Switch to Hands-Free' : 'Switch to Push-to-Talk'}
+          </button>
+          <button onClick={toggleTextOnlyOutput}>
+            {isOnlyTextOutput ? 'Switch to Audio Responses' : 'Switch to Text Responses'}
+          </button>
+          <button onClick={toggleAutoStart}>
+            {autoStart ? 'Manually Start Journal Entry' : 'Autostart Journal Entry'}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -7,6 +7,9 @@ import { setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 import { Main } from './components/Main/Main';
 import './App.css';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import { RealtimeClientProvider } from './contexts/RealtimeClientContext';
 
 const App: React.FC = () => {
 
@@ -22,14 +25,23 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="title">JournAI</div>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/notes" element={<Notes />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/" element={<Login />} />
-      </Routes>
+      <div className="app-container">
+        <div className="phone-ui">
+          
+            <Header title="JournAI" />
+            <div className="main-body">
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/notes" element={<Notes />} />
+                <Route path="/main" element={<RealtimeClientProvider><Main /></RealtimeClientProvider>} />
+                <Route path="/" element={<Login />} />
+              </Routes>
+            </div>
+          {/* <Footer /> */}
+        </div>
+      </div>
+      {/* <div className="title">JournAI</div> */}
     </Router>
   );
 };

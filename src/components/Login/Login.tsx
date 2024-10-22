@@ -1,5 +1,5 @@
 // src/pages/Login.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-container">
+      <h3>Login</h3>
       <input
         type="email"
         placeholder="Email"

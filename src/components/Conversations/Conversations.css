@@ -3,8 +3,6 @@
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
-  margin-left: 16px;
-  /* width: 50%; */
 }
 
 .conversation-item:not(:hover) .close {
@@ -27,9 +25,8 @@
   position: relative;
   text-align: left;
   gap: 16px;
-  width: 80px;
+  width: 60px;
   flex-shrink: 0;
-  margin-right: 16px;
 }
 
 .conversation-item .speaker.user {
@@ -50,7 +47,6 @@
 }
 
 .content-block-body {
-  width: 25%;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -58,4 +54,10 @@
 
 .content-block-title {
   display: none;
+}
+
+.content-block.conversation {
+  flex-grow: 1;
+  padding-top: 10px;
+  overflow-y: scroll;
 }

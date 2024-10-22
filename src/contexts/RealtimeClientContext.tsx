@@ -9,6 +9,8 @@ interface RealtimeClientContextValue {
   client: RealtimeClient | null;
   finishConversationCallbacks: (callback: () => void) => void;
   finishConversation: () => void;
+  startConversationCallbacks: (callback: () => void) => void;
+  startConversation: () => void;
 }
 
 const RealtimeClientContext = createContext<RealtimeClientContextValue>(null!);
@@ -23,6 +25,7 @@ export const RealtimeClientProvider = ({ children }: RealtimeClientProviderProps
   const [client, setClient] = useState<RealtimeClient | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [finishConversationCallbacks, setFinishConversationCallbacks] = useState<(() => void)[]>([]);
+  const [startConversationCallbacks, setStartConversationCallbacks] = useState<(() => void)[]>([]);
   const { autoStart, isPTT, isOnlyTextOutput, hasLoaded } = useUserPreferences();
 
   useEffect(() => {
@@ -33,9 +36,7 @@ export const RealtimeClientProvider = ({ children }: RealtimeClientProviderProps
 
   useEffect(() => {
     if (hasLoaded) {
-      if (client && !client.isConnected() && autoStart) initClient();
-      updateAudioInputMode(isPTT);
-      updateAudioOutputMode(isOnlyTextOutput);
+      if (client && !client.isConnected() && autoStart) startConversation();
     }
       // if yes, connect if not, and push some initial prompt to get the first response going
     // If no (yes->no), do nothing, other than remembering this setting for next time
@@ -67,22 +68,20 @@ export const RealtimeClientProvider = ({ children }: RealtimeClientProviderProps
   }
 
   const initClient = async () => {
-    connect();
-    
+    await connect();
     updateAudioInputMode(isPTT);
     await updateAudioOutputMode(isOnlyTextOutput);
-    if (autoStart) {
-      // await client.sendUserMessageContent([{ type: 'input_text', text: `Hey, lets begin todays journal entry!` }]); // TODO: Enable
-    } 
   }
 
   const connect = async () => {
     if (!client) return;
-    client.updateSession({ instructions });
-    client.updateSession({ voice: 'shimmer' });
-    client.updateSession({ max_response_output_tokens: 1024 });
     await client.connect();
-    client.updateSession({ input_audio_transcription: { model: 'whisper-1' } });
+    client.updateSession({
+      instructions,
+      voice: 'shimmer',
+      max_response_output_tokens: 1024,
+      input_audio_transcription: { model: 'whisper-1' }
+    });
   }
 
   const registerCallbackForFinishConversation = useCallback(
@@ -92,9 +91,24 @@ export const RealtimeClientProvider = ({ children }: RealtimeClientProviderProps
     [setFinishConversationCallbacks]
   );
 
-  const finishConversation = () => {
+  const finishConversation = async () => {
+    await client?.disconnect();
     finishConversationCallbacks.forEach((callback) => callback());
     // setFinishConversationCallbacks([]); // Clear callbacks after triggering?
+  };
+
+  const registerCallbackForStartConversation = useCallback(
+    (callback: () => void) => {
+      setStartConversationCallbacks((prev) => [...prev, callback]);
+    },
+    [setStartConversationCallbacks]
+  );
+
+  const startConversation = async () => {
+    await initClient();
+    // await client?.waitForSessionCreated();
+    // await client?.sendUserMessageContent([{ type: 'input_text', text: `Hey` }]);
+    startConversationCallbacks.forEach((callback) => callback());
   };
 
   useEffect(() => {
@@ -136,7 +150,7 @@ export const RealtimeClientProvider = ({ children }: RealtimeClientProviderProps
   }
 
   return (
-    <RealtimeClientContext.Provider value={{client, finishConversationCallbacks: registerCallbackForFinishConversation, finishConversation}}>
+    <RealtimeClientContext.Provider value={{client, finishConversationCallbacks: registerCallbackForFinishConversation, finishConversation, startConversationCallbacks: registerCallbackForStartConversation, startConversation}}>
       {children}
     </RealtimeClientContext.Provider>
   );

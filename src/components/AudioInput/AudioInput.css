@@ -1,7 +1,8 @@
 .audio-input-container {
   display: flex;
-  margin: 20px auto;
+  /* margin: 20px auto; */
   justify-content: center;
+  flex-direction: column;
 }
 
 .audio-input-container button {
@@ -10,12 +11,11 @@
 
 .visualization {
   display: flex;
-  bottom: 4px;
-  right: 8px;
-  padding: 4px;
+  padding: 24px 0;
   border-radius: 16px;
   z-index: 10;
   gap: 2px;
+  justify-content: space-between;
 }
 
 .visualization .visualization-entry {
@@ -38,4 +38,16 @@
   width: 100%;
   height: 100%;
   color: currentColor;
+}
+
+button.mic-button {
+  margin: 0;
+}
+
+.mic-button.vad, .mic-button.ptt.recording {
+  background-color: #009900;
+}
+
+.mic-button.ptt.idle {
+  background-color: #FF3F3c;
 }

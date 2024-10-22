@@ -1,0 +1,9 @@
+header h1 {
+  margin: 0 auto;
+  flex-grow: 1;
+  text-align: center;
+}
+
+header .left,.right {
+  width: 24px;
+}

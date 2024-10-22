@@ -1,8 +1,13 @@
 .text-input-container {
-  margin: 12px auto;
   display: flex;
-  width: 25%;
   justify-content: center;
+  height: 36px;
+}
+
+.text-input-container button {
+  width: auto !important;
+  height: 36px;
+  margin: 0;
 }
 
 input {
