@@ -1,0 +1,18 @@
+// src/app/login/login.component.scss
+@import 'src/styles/variables';
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-large;
+  text-align: center;
+}
+
+input[type="text"], input[type="password"] {
+  margin-bottom: $spacing-medium;
+}
+
+button {
+  margin-top: $spacing-medium;
+}

@@ -1,0 +1,12 @@
+@import 'src/styles/variables';
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+}
+
+button {
+  text-align: center;
+}

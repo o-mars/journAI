@@ -25,3 +25,5 @@ yarn-error.log*
 .firebase/
 .github/
 .env
+
+angular/src/environment.ts

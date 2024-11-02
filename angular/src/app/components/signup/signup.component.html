@@ -1,0 +1,22 @@
+<div class="signup-container">
+  <h3>Sign Up</h3>
+  <input
+    type="text"
+    placeholder="Email"
+    [(ngModel)]="email"
+  />
+  <input
+    type="password"
+    placeholder="Password"
+    [(ngModel)]="password"
+  />
+  <input
+    type="password"
+    placeholder="Confirm Password"
+    [(ngModel)]="confirmPassword"
+  />
+  <button (click)="handleSignup()">Sign Up</button>
+  <p *ngIf="error" style="color: red;">{{ error }}</p>
+  <button (click)="handleLogin()">Login</button>
+
+</div>

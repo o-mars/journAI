@@ -1,0 +1,40 @@
+<button (click)="complete()">Finish</button>
+<input [(ngModel)]="inputText">
+<button (click)="sendTextMessage()">Send</button>
+<div class="audio-input-container">
+  <div class="visualization">
+    <div class="visualization-entry client">
+      <canvas #clientCanvas></canvas>
+    </div>
+
+    <button
+      (mousedown)="handleMouseDownOrTouchStart()"
+      (mouseup)="handleMouseUpOrTouchEnd()"
+      (touchstart)="handleMouseDownOrTouchStart()"
+      (touchend)="handleMouseUpOrTouchEnd()"
+      [ngClass]="{
+        'mic-button': true,
+        'ptt': isPushToTalkMode,
+        'vad': !isPushToTalkMode,
+        'recording': isRecording,
+        'idle': !isRecording
+      }"
+    >
+      <ng-container *ngIf="!isPushToTalkMode; else micOff">
+        <!-- <app-mic-on-icon></app-mic-on-icon> -->
+        <img src="assets/icons/mic-on.svg" alt="Mic On" />
+
+      </ng-container>
+      <ng-template #micOff>
+        <!-- <app-mic-off-icon></app-mic-off-icon> -->
+        <img src="assets/icons/mic-off.svg" alt="Mic Off" />
+
+      </ng-template>
+    
+    </button>
+
+    <div class="visualization-entry server">
+      <canvas #serverCanvas></canvas>
+    </div>
+  </div>
+</div>

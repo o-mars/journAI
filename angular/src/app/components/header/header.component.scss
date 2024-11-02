@@ -1,0 +1,22 @@
+// header.component.scss
+.header-component {
+  display: flex;
+  align-items: center;
+  justify-content: center; // Center the title by default
+  position: relative; // Allow absolute positioning of right icon
+  padding: 0 1px; // Adjust padding as needed
+
+  .menu-button {
+    margin-right: auto; // Align left, while title stays centered
+  }
+
+  .title {
+    position: absolute;
+    text-align: center;
+  }
+
+  .action-button {
+    position: absolute;
+    right: 4px;
+  }
+}

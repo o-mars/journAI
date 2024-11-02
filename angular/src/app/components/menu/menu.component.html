@@ -1,0 +1,11 @@
+<div class="menu-component">
+  <div class="menu-item" (click)="handleFoo()">About</div>
+  <div class="menu-item" (click)="handleSettings()">Settings</div>
+
+  <div *ngIf="isAuthenticated" class="logout-component">
+    <div class="display-name-container">John Doe</div>
+    <!-- <button (click)="handleLogout()">Logout</button> -->
+    <img class="logout-icon" src="assets/icons/feather-log-out.svg" alt="Logout" />
+
+  </div>
+</div>

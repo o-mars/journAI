@@ -1,0 +1,13 @@
+<div class="header-component">
+  <div class="menu-button button-container" (click)="toggleMenu()">
+    <img src="assets/icons/menu.svg" alt="=" />
+  </div>
+  <div class="title label-container">
+    {{ title }}
+  </div>
+  <div class="action-button button-container" (click)="triggerAction()" *ngIf="icon">
+    <ng-container >
+      <img [src]="'assets/icons/' + icon" alt="X" />
+    </ng-container>
+  </div>
+</div>

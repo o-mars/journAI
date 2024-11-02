@@ -1,0 +1,71 @@
+/* Base */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  width: 100%;
+  min-width: $breakpoint-mobile;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: $border-radius;
+  margin: 4px auto;
+
+  // Center the "card" in larger screens
+  @media (min-width: $breakpoint-tablet) {
+    height: 90vh;
+  }
+
+  @media (min-width: $breakpoint-desktop) {
+    height: 85vh;
+  }
+}
+
+// Common classes for input, button, header, and page layout
+.page-header {
+  padding: $spacing-medium;
+  background-color: $primary-color;
+  color: white;
+  font-size: $font-large;
+  text-align: center;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+}
+
+.form-container, .button-container {
+  padding: $spacing-medium;
+}
+
+input[type="text"], input[type="password"], input[type="checkbox"] {
+  width: 100%;
+  padding: $spacing-small;
+  margin-bottom: $spacing-medium;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+}
+
+button {
+  width: 100%;
+  padding: $spacing-small;
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-medium;
+  cursor: pointer;
+  margin-top: $spacing-small;
+  
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
