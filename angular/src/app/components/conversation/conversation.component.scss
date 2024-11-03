@@ -1,0 +1,38 @@
+.content-block-body {
+  padding: 8px;
+  height: 65vh;
+  overflow-y: auto; // Enables scrolling
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.conversation-item {
+  margin-bottom: 16px;
+}
+
+.speaker {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 8px;
+
+  &.user {
+    color: #4488ff;
+  }
+
+  &.assistant {
+    color: green;
+  }
+
+  .close {
+    cursor: pointer;
+    color: red;
+  }
+}
+
+.speaker-content {
+  padding-left: 16px;
+}

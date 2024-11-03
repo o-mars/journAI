@@ -1,0 +1,30 @@
+<div class="content-block-body" data-conversation-content>
+  <div *ngFor="let conversationItem of items" class="conversation-item">
+    <div class="speaker {{ conversationItem.role || '' }}">
+      <div>{{ getSpeakerName(conversationItem) }}</div>
+      <div class="close" (click)="onDeleteConversationItem(conversationItem.id)">✕</div>
+    </div>
+
+    <div class="speaker-content">
+      <div *ngIf="conversationItem.type === 'function_call_output'">
+        {{ conversationItem.formatted.output }}
+      </div>
+
+      <div *ngIf="conversationItem.formatted.tool">
+        {{ conversationItem.formatted.tool.name }}({{ conversationItem.formatted.tool.arguments }})
+      </div>
+
+      <div *ngIf="!conversationItem.formatted.tool && conversationItem.role === 'user'">
+        {{ conversationItem.formatted.transcript ||
+          (conversationItem.formatted.audio?.length ? '(awaiting transcript)' :
+          conversationItem.formatted.text || '(item sent)') }}
+      </div>
+
+      <div *ngIf="!conversationItem.formatted.tool && conversationItem.role === 'assistant'">
+        {{ conversationItem.formatted.transcript || conversationItem.formatted.text || '(truncated)' }}
+      </div>
+
+      <audio *ngIf="conversationItem.formatted.file" [src]="conversationItem.formatted.file.url" controls></audio>
+    </div>
+  </div>
+</div>
