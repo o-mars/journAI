@@ -1,3 +1,9 @@
+<app-header 
+  title="Settings"
+  leftIcon="feather-chevron-left.svg"
+  (leftAction)="routeToDashboard()"
+/>
+
 <div class="settings-container">
   <label class="custom-checkbox">
     <input type="checkbox" [checked]="userPreferences.inputMode === 'push-to-talk'" (change)="togglePTT()" />

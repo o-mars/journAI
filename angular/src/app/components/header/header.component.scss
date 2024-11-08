@@ -15,7 +15,7 @@
     cursor: pointer;
   }
 
-  .menu-button {
+  .left {
     margin-right: auto; // Align left, while title stays centered
   }
 
@@ -25,7 +25,7 @@
     font-size: 15pt;
   }
 
-  .action-button {
+  .right {
     position: absolute;
     right: 4px;
 

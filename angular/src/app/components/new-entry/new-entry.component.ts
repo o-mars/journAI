@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { encodeWAV, encodeWAVChunk } from 'src/app/lib/wav.encoder';
 import { ConversationItem } from 'src/app/models/conversation';
 import { AudioService } from 'src/app/services/audio.service';
-import { HeaderService } from 'src/app/services/header.service';
 import { OpenaiRealtimeClientService } from 'src/app/services/openai-realtime-client.service';
 import { StoreService } from 'src/app/services/store.service';
 
@@ -35,7 +34,6 @@ export class NewEntryComponent implements OnInit, OnDestroy {
     private audioService: AudioService,
     private realtimeService: OpenaiRealtimeClientService,
     private router: Router,
-    private headerService: HeaderService,
     private store: StoreService
   ) {
 
@@ -43,9 +41,6 @@ export class NewEntryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.audioContext = new AudioContext({ sampleRate: 24000 });
-
-    this.headerService.setRightActionIcon('check.svg');
-    this.headerService.actionClicked$.subscribe(() => this.complete());
 
     this.realtimeService.conversationItems$.subscribe(convoItems => {
       this.conversationItems = convoItems;

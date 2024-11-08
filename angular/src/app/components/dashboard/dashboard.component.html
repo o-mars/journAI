@@ -1,3 +1,10 @@
+<app-header 
+  leftIcon="menu.svg"
+  rightIcon="feather-log-out.svg"
+  (leftAction)="routeToMenu()"
+  (rightAction)="handleLogout()"
+/>
+
 <div class="dashboard-container">
   <button class="button-container primary" (click)="handleStart()">Start</button>
   <button class="button-container secondary" (click)="handleSettings()">Settings</button>

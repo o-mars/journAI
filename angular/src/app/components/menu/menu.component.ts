@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,10 +10,8 @@ import { HeaderService } from 'src/app/services/header.service';
 export class MenuComponent {
   isAuthenticated = false;
 
-  constructor(private authService: AuthService, private router: Router, private headerService: HeaderService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.authService.isAuthenticated$.subscribe(isAuth => this.isAuthenticated = isAuth)
-    this.headerService.setTitle('Menu');
-    this.headerService.setRightActionIcon('check.svg');
   }
 
   async handleLogout() {
@@ -25,7 +22,7 @@ export class MenuComponent {
     this.router.navigate(['/settings']);
   }
 
-  handleFoo() {
+  backToDashboard() {
     this.router.navigate(['/dashboard']);
   }
 

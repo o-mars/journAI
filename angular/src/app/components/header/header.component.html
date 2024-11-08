@@ -1,13 +1,11 @@
 <div class="header-component">
-  <div class="menu-button button-container" *ngIf="shouldShowMenu" (click)="toggleMenu()">
-    <img src="assets/icons/menu.svg" alt="=" />
+  <div class="action-button button-container left" *ngIf="leftIcon !== ''" (click)="leftActionClicked()">
+    <img [src]="'assets/icons/' + leftIcon" alt="=" />
   </div>
   <div class="title label-container">
     {{ title }}
   </div>
-  <div class="action-button button-container" (click)="triggerAction()" *ngIf="icon">
-    <ng-container >
-      <img [src]="'assets/icons/' + icon" alt="X" />
-    </ng-container>
+  <div class="action-button button-container right" *ngIf="rightIcon !== ''" (click)="rightActionClicked()">
+    <img [src]="'assets/icons/' + rightIcon" alt="+" />
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { HeaderService } from 'src/app/services/header.service';
@@ -9,49 +9,20 @@ import { HeaderService } from 'src/app/services/header.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  title = 'JournAI';
-  icon: string | null = ''; // todo; default icon none?
-  isShowingMenu = false;
-  shouldShowMenu = false;
-  previousRoute = '';
-  constructor(private headerService: HeaderService, private router: Router, private authService: AuthService) {
-    this.authService.isAuthenticated$.subscribe(isAuth => this.shouldShowMenu = isAuth);
-    this.headerService.title$.subscribe(title => this.title = title);
-    this.headerService.rightActionIcon$.subscribe(icon => this.icon = icon);
-    this.headerService.actionClicked$.subscribe(() => {
-      switch(this.router.url) {
-        case '/menu':
-          this.toggleMenu();
-          this.router.navigate(['/dashboard']);
-          break;
-        case '/settings':
-          this.router.navigate(['/menu']);
-          break;
-        case '/new-entry':
-          this.router.navigate(['/dashboard']);
-          break;
-        default:
-          break;
-      }
-      console.log(this.router.url);
-    })
+  @Input() title: string = 'JournAI';
+  @Input() leftIcon: string = '';
+  @Input() rightIcon: string = '';
+  
+  @Output() leftAction = new EventEmitter<void>();
+  @Output() rightAction = new EventEmitter<void>();
+
+  constructor() {}
+
+  leftActionClicked() {
+    this.leftAction.emit();
   }
 
-  toggleMenu() {
-    console.log('handle show menu');
-    if (this.isShowingMenu) {
-      this.router.navigate([this.previousRoute]);
-      this.previousRoute = '';
-    } else {
-      this.previousRoute = this.router.url;
-      this.router.navigate(['/menu']);
-    }
-    this.isShowingMenu = !this.isShowingMenu;
+  rightActionClicked() {
+    this.rightAction.emit();
   }
-
-  triggerAction() {
-    console.log('action trigger');
-    this.headerService.triggerAction();
-  }
-
 }
