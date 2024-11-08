@@ -1,0 +1,12 @@
+.vu-meter {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+  height: 100px; /* Adjust as needed */
+}
+
+.vu-meter div {
+  flex: 1;
+  background-color: lightgreen;
+  transition: height 0.1s ease-in-out;
+}
