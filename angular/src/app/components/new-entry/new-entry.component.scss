@@ -1,0 +1,47 @@
+.new-entry-component {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+
+  button {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+}
+
+.text-input-container {
+  display: flex;
+  padding: 4px 0;
+
+  input {
+    flex-grow: 1;
+    margin: 0;
+  }
+
+  button {
+    width: auto;
+    margin: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.img-send {
+  width: 16px;
+  height: 16px;
+  color: white;
+}
+
+.conversation {
+  display: block;
+  // height: 600px;
+  flex-grow: 1;
+}
+
+.vu-container-wrapper {
+  display: flex;
+}
+
+.vu-meter-container {
+  padding: 4px;
+}

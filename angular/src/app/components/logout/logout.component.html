@@ -1,4 +1,6 @@
 <div class="logout-component">
   <div class="display-name-container">John Doe</div>
-  <button (click)="handleLogout()" *ngIf="isAuthenticated">Logout</button>
+  <button (click)="handleLogout()" *ngIf="isAuthenticated">
+    <img src="assets/icons/logout.svg" alt="Logout" />
+  </button>
 </div>

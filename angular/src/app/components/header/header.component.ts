@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
@@ -11,8 +12,10 @@ export class HeaderComponent {
   title = 'JournAI';
   icon: string | null = ''; // todo; default icon none?
   isShowingMenu = false;
+  shouldShowMenu = false;
   previousRoute = '';
-  constructor(private headerService: HeaderService, private router: Router) {
+  constructor(private headerService: HeaderService, private router: Router, private authService: AuthService) {
+    this.authService.isAuthenticated$.subscribe(isAuth => this.shouldShowMenu = isAuth);
     this.headerService.title$.subscribe(title => this.title = title);
     this.headerService.rightActionIcon$.subscribe(icon => this.icon = icon);
     this.headerService.actionClicked$.subscribe(() => {

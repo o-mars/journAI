@@ -1,5 +1,5 @@
 <div class="header-component">
-  <div class="menu-button button-container" (click)="toggleMenu()">
+  <div class="menu-button button-container" *ngIf="shouldShowMenu" (click)="toggleMenu()">
     <img src="assets/icons/menu.svg" alt="=" />
   </div>
   <div class="title label-container">

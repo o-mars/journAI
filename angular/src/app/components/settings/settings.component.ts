@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserPreferences } from 'src/app/models/user.preferences';
 import { StoreService } from 'src/app/services/store.service';
 import { OpenaiRealtimeClientService } from 'src/app/services/openai-realtime-client.service';
+import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,14 +12,11 @@ import { OpenaiRealtimeClientService } from 'src/app/services/openai-realtime-cl
 export class SettingsComponent {
   userPreferences = new UserPreferences();
 
-  isOptionsVisible = false;
-
-  constructor(private store: StoreService, private realtimeClient: OpenaiRealtimeClientService) {
+  constructor(private store: StoreService, private realtimeClient: OpenaiRealtimeClientService, private headerService: HeaderService) {
     this.store.userPreferences$.subscribe(userPrefs => this.userPreferences = userPrefs);
-  }
-
-  toggleOptions() {
-    this.isOptionsVisible = !this.isOptionsVisible;
+    this.headerService.setTitle('Settings');
+    this.headerService.setRightActionIcon('check.svg');
+    console.log('settings set title?');
   }
 
   togglePTT() {
@@ -43,6 +41,11 @@ export class SettingsComponent {
 
   toggleAutostart() {
     this.userPreferences.shouldAutostart = !this.userPreferences.shouldAutostart;
+    this.store.saveUserPreferences(this.userPreferences);
+  }
+
+  toggleSaveChats() {
+    this.userPreferences.shouldSaveChats = !this.userPreferences.shouldSaveChats;
     this.store.saveUserPreferences(this.userPreferences);
   }
 }

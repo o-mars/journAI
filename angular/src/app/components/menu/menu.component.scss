@@ -1,5 +1,7 @@
+@import 'src/styles/variables';
+
 .menu-component {
-  margin: 16px;
+  margin: $spacing-large;
 }
 
 .menu-item {

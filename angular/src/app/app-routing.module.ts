@@ -8,6 +8,7 @@ import { EntryComponent } from 'src/app/components/entry/entry.component';
 import { SignupComponent } from 'src/app/components/signup/signup.component';
 import { AuthGuard } from 'src/app/services/auth-guard.service';
 import { NoAuthGuard } from 'src/app/services/no-auth-guard.service';
+import { MenuComponent } from 'src/app/components/menu/menu.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'entry', component: EntryComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent, canActivate: [NoAuthGuard] },
   { path: 'main', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/main' },
   // { path: '', component: DashboardComponent },
 ];

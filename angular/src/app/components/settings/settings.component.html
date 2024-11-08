@@ -1,22 +1,9 @@
-<div class="cc-wrapper" (click)="toggleOptions()">
-  Options
-  <ng-container *ngIf="isOptionsVisible; else caretRight">
-    <img class="options-icon" src="assets/icons/feather-chevron-down.svg" alt="Caret Down" />
-  </ng-container>
-  <ng-template #caretRight>
-    <img class="options-icon" src="assets/icons/feather-chevron-right.svg" alt="Caret Right" />
-  </ng-template>
-</div>
-
-<div *ngIf="isOptionsVisible" class="settings-container">
+<div class="settings-container">
   <label class="custom-checkbox">
     <input type="checkbox" [checked]="userPreferences.inputMode === 'push-to-talk'" (change)="togglePTT()" />
     <ng-container *ngIf="userPreferences.inputMode === 'push-to-talk'; else checkboxOff1">
       <img src="assets/icons/checkbox-true.svg" alt="Checkbox On" />
     </ng-container>
-    <ng-template #checkboxOff1>
-      <img src="assets/icons/checkbox-false.svg" alt="Checkbox Off" />
-    </ng-template>
     <span>Push-to-Talk Mode</span>
   </label>
 
@@ -25,9 +12,6 @@
     <ng-container *ngIf="userPreferences.outputMode === 'text'; else checkboxOff1">
       <img src="assets/icons/checkbox-true.svg" alt="Checkbox On" />
     </ng-container>
-    <ng-template #checkboxOff1>
-      <img src="assets/icons/checkbox-false.svg" alt="Checkbox Off" />
-    </ng-template>
     <span>Text Only Response</span>
   </label>
 
@@ -36,10 +20,18 @@
     <ng-container *ngIf="userPreferences.shouldAutostart; else checkboxOff1">
       <img src="assets/icons/checkbox-true.svg" alt="Checkbox On" />
     </ng-container>
-    <ng-template #checkboxOff1>
-      <img src="assets/icons/checkbox-false.svg" alt="Checkbox Off" />
-    </ng-template>
     <span>Autostart</span>
   </label>
 
+  <label class="custom-checkbox">
+    <input type="checkbox" [checked]="userPreferences.shouldSaveChats" (change)="toggleSaveChats()" />
+    <ng-container *ngIf="userPreferences.shouldSaveChats; else checkboxOff1">
+      <img src="assets/icons/checkbox-true.svg" alt="Checkbox On" />
+    </ng-container>
+    <span>Save Chat Logs</span>
+  </label>
 </div>
+
+<ng-template #checkboxOff1>
+  <img src="assets/icons/checkbox-false.svg" alt="Checkbox Off" />
+</ng-template>

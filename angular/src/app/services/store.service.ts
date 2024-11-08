@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
+import { ConversationItem } from 'src/app/models/conversation';
 import { UserPreferences } from 'src/app/models/user.preferences';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -68,5 +69,14 @@ export class StoreService {
       console.error("Error saving preferences: ", e);
     }
   };
+
+  public async saveEntry(conversation: ConversationItem[]) {
+    /*
+    */
+  }
+
+  public async updateEntry() {
+
+  }
 }
 

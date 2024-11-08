@@ -11,6 +11,10 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EntryComponent } from './components/entry/entry.component';
 import { NewEntryComponent } from './components/new-entry/new-entry.component';
+import { HeaderComponent } from './components/header/header.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { ConversationComponent } from './components/conversation/conversation.component';
+import { VolumeMeterComponent } from './components/volume-meter/volume-meter.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { NewEntryComponent } from './components/new-entry/new-entry.component';
     LogoutComponent,
     DashboardComponent,
     EntryComponent,
-    NewEntryComponent
+    NewEntryComponent,
+    HeaderComponent,
+    MenuComponent,
+    ConversationComponent,
+    VolumeMeterComponent,
   ],
   imports: [
     BrowserModule,
