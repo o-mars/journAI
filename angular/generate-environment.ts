@@ -3,7 +3,7 @@ const serverUrl = process.env['REACT_APP_LOCAL_RELAY_SERVER_URL'];
 const environmentFileContent = `
 export const environment = {
    production: true,
-   relayServerUrl: 'ws://${serverUrl}',
+   relayServerUrl: 'wss://${serverUrl}',
    serverUrl: '${serverUrl}:8081',
 };
 `;
