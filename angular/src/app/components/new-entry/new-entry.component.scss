@@ -43,5 +43,11 @@
 }
 
 .vu-meter-container {
+  display: flex;
+  width: 80px;
   padding: 4px;
+}
+
+app-volume-meter {
+  width: 20px;
 }

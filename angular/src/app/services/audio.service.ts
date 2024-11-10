@@ -13,6 +13,9 @@ export class AudioService {
   private micStream = new BehaviorSubject<Int16Array>(Int16Array.from([]));
   public micStream$ = this.micStream.asObservable();
 
+  private micStream32F = new BehaviorSubject<Float32Array>(Float32Array.from([]));
+  public micStream32F$ = this.micStream32F.asObservable();
+
   async initAudio() {
     if (!this.audioContext) {
       this.audioContext = new AudioContext({ sampleRate: 24000 });
@@ -23,7 +26,10 @@ export class AudioService {
       this.mediaStreamSource.connect(this.processor);
       this.processor.connect(this.audioContext.destination);
 
-      this.processor.onaudioprocess = (event) => this.processAudio(event);
+      this.processor.onaudioprocess = (event) => {
+        // this.micStream32F.next(event.inputBuffer.getChannelData(0));
+        this.processAudio(event);
+      }
     }
   }
 
@@ -36,6 +42,7 @@ export class AudioService {
     }
 
     this.micStream.next(int16Array);
+    this.micStream32F.next(audioData);
   }
 
   async startRecording() {

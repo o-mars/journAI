@@ -5,6 +5,7 @@ import { ConversationItem } from 'src/app/models/conversation';
 import { AudioService } from 'src/app/services/audio.service';
 import { OpenaiRealtimeClientService } from 'src/app/services/openai-realtime-client.service';
 import { StoreService } from 'src/app/services/store.service';
+import { WhisperService } from 'src/app/services/whisper.service';
 
 @Component({
   selector: 'app-new-entry',
@@ -33,6 +34,7 @@ export class NewEntryComponent implements OnInit, OnDestroy {
   constructor(
     private audioService: AudioService,
     private realtimeService: OpenaiRealtimeClientService,
+    private whisperService: WhisperService,
     private router: Router,
     private store: StoreService
   ) {
@@ -59,13 +61,57 @@ export class NewEntryComponent implements OnInit, OnDestroy {
       // if (!!audioStream) this.playAudioChunk(audioStream.audio);
     });
 
-    // This code is to test speaker using mic stream instead of openAI audio to save $
     this.audioService.micStream$.subscribe((micStream: Int16Array) => {
       if (this.isRecording) {
         this.audioInput = micStream;
-        this.queueAudio('test', micStream);
+        // this.queueAudio('test', micStream); // This code is to test speaker using mic stream instead of openAI audio to save $
       }
     });
+
+    this.whisperService.textPipe$.subscribe(json => {
+      const item :ConversationItem = {
+        id: 'foo' + Math.random() + '.',
+        role: json.type === 'stt' ? 'user' : 'assistant',
+        formatted: {
+          text: json.data,
+          transcript: json.data,
+        }
+      }
+      this.conversationItems.push(item);
+    });
+
+    // this.whisperService.stt$.subscribe(text => {
+    //   const item :ConversationItem = {
+    //     id: 'foo' + Math.random() + '.',
+    //     role: 'user',
+    //     formatted: {
+    //       text,
+    //       transcript: text,
+    //     }
+    //   }
+    //   this.conversationItems.push(item);
+    // })
+
+    this.whisperService.tts$.subscribe(audioData => {
+      console.log('got TTS to play');
+      const audioBlob = new Blob([audioData], { type: "audio/wav" });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audio.play();
+      // this.queueAudio('test', audioData);
+    })
+    // this.whisperService.audioTranscription$.subscribe(transcript => {
+    //   console.log(transcript);
+    //   const item :ConversationItem = {
+    //     id: 'foo' + Math.random() + '.',
+    //     role: 'user',
+    //     formatted: {
+    //       transcript,
+    //       text: transcript,
+    //     }
+    //   }
+    //   this.conversationItems.push(item);
+    // })
   }
 
   ngOnDestroy(): void {
@@ -76,7 +122,8 @@ export class NewEntryComponent implements OnInit, OnDestroy {
 
   sendTextMessage() {
     console.log('send text message: ', this.inputText);
-    this.realtimeService.sendMessage(this.inputText);
+    this.whisperService.sendText(this.inputText);
+    // this.realtimeService.sendMessage(this.inputText);
     this.inputText = '';
   }
 
@@ -96,6 +143,7 @@ export class NewEntryComponent implements OnInit, OnDestroy {
       this.isPlaying = false;
     }
     this.audioQueue.push(stream);
+    // this.audioQueue = this.audioQueue.concat(stream);
     if (!this.isPlaying) {
       this.playNextChunk();
     }
@@ -153,6 +201,9 @@ export class NewEntryComponent implements OnInit, OnDestroy {
   handleRecord() {
     this.isRecording = !this.isRecording;
     if (this.isRecording) this.audioService.startRecording();
-    else this.audioService.stopRecording();
+    else {
+      this.audioService.stopRecording();
+      this.audioInput = undefined;
+    }
   }
 }

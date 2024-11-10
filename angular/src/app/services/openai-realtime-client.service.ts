@@ -93,17 +93,16 @@ export class OpenaiRealtimeClientService {
   }
 
   private init() {
-      this._realtimeClient = new RealtimeClient({
-        url: environment.relayServerUrl || '',
-      });
+      // this._realtimeClient = new RealtimeClient({
+      //   url: environment.relayServerUrl + '/openai' || '',
+      // });
 
-      this._realtimeClient.updateSession({ instructions });
-      this._realtimeClient.updateSession({ voice: 'shimmer' });
-      this._realtimeClient.updateSession({ max_response_output_tokens: 1024 });
-
+      // this._realtimeClient.updateSession({ instructions });
+      // this._realtimeClient.updateSession({ voice: 'shimmer' });
+      // this._realtimeClient.updateSession({ max_response_output_tokens: 1024 });
   }
 
-  // TODO: Have specific methods for the specific ways you will interact with client instead of directly dealing with client
+  // TODO: Have specific methods for the specific ways you will interact with client instead of directly dealing with client.
   get client() {
     return this._realtimeClient;
   }

@@ -1,38 +1,44 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-volume-meter',
   templateUrl: './volume-meter.component.html',
   styleUrls: ['./volume-meter.component.scss']
 })
-export class VolumeMeterComponent {
-  @Input() barColor: string = 'lightgreen';
-  bars: number[] = new Array(10).fill(0);
+export class VolumeMeterComponent implements OnChanges {
+  @Input() orientation: 'vertical' | 'horizontal' = 'vertical';
 
-  @Input()
-  set audioData(data: Int16Array | undefined) {
-    if (data) this.updateVolumeMeter(data);
-    else {
-      for (let i = 0; i < this.bars.length; i++) {
-        this.bars[i] = 0;
-      }  
+  volumeHeight = 0;
+  barColor = '#00ff00';
+
+  @Input() audioData?: Int16Array;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['audioData'] && this.audioData) {
+      this.calculateVolume();
+    } else if (!this.audioData) {
+      this.volumeHeight = 0;
+      this.barColor = this.getColorForVolume(this.volumeHeight);
     }
   }
 
-  private calculateAverageVolume(data: Int16Array): number {
-    let sum = 0;
-    for (let i = 0; i < data.length; i++) {
-      sum += Math.abs(data[i]);
-    }
-    return sum / data.length;
+  private calculateVolume(): void {
+    const absValues = this.audioData!.map(sample => Math.abs(sample));
+    const averageVolume = absValues.reduce((sum, val) => sum + val, 0) / absValues.length;
+
+    // Normalize to a 0-100 scale (you might adjust this depending on your audio range)
+    this.volumeHeight = Math.max(10, Math.min(100, (averageVolume / 32768) * 2048));
+
+    // Update color based on volume
+    this.barColor = this.getColorForVolume(this.volumeHeight);
   }
 
-  private updateVolumeMeter(data: Int16Array): void {
-    const volume = this.calculateAverageVolume(data);
-    const normalizedVolume = Math.min(volume / 32767, 1); // Normalize to [0, 1]
-
-    for (let i = 0; i < this.bars.length; i++) {
-      this.bars[i] = i < this.bars.length * normalizedVolume ? normalizedVolume * 100 : 0;
+  private getColorForVolume(volume: number): string {
+    // Transition from green to red as volume goes from 0 to 100
+    if (volume < 50) {
+      return `rgb(${(volume / 50) * 255}, 255, 0)`;
+    } else {
+      return `rgb(255, ${(1 - (volume - 50) / 50) * 255}, 0)`;
     }
   }
 }

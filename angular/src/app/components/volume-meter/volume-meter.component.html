@@ -1,3 +1,10 @@
-<div class="vu-meter">
-  <div *ngFor="let bar of bars" [ngStyle]="{'height': bar + '%', 'background-color': barColor}"></div>
+<div class="volume-container">
+  <div 
+    class="volume-bar" 
+    [ngStyle]="{
+      'height': orientation === 'vertical' ? volumeHeight + '%' : '100%',
+      'width': orientation === 'horizontal' ? volumeHeight + '%' : '100%',
+      'background-color': barColor
+    }">
+  </div>
 </div>
